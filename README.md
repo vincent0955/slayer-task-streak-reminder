@@ -4,7 +4,7 @@ This plugin is a simple reminder that notifies you in chat to remind you to kona
 It will notify you if both your next task will be a point streak and you are in proximinity of any slayer master except for Vannaka, Krystilia, Spria, and Mazchna.
 
 # Settings
-![]https://i.imgur.com/7PkV6yE.png
+![](https://i.imgur.com/7PkV6yE.png)
 
 -Select the distance from the slayer master when it alerts you
 
