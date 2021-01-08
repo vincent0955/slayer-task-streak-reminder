@@ -47,7 +47,6 @@ public class streakreminderPlugin extends Plugin
 	private WorldArea DuradelArea = new WorldArea(2869,2978,2870,2983, 0);
 	private WorldArea TuraelArea = new WorldArea(2930, 3535, 2932, 3537,  0);
 	private WorldArea ChaeldarArea = new WorldArea(2442,4429, 2446, 4434, 0);
-	private WorldPoint KrystiliaArea = new WorldPoint(3109,3516, 0);
 
 	@Provides
 	streakreminderConfig provideConfig(ConfigManager configManager)
@@ -110,7 +109,6 @@ public class streakreminderPlugin extends Plugin
 			WorldPoint CurrentLocation = client.getLocalPlayer().getWorldLocation();
 			WorldArea CurrentArea = client.getLocalPlayer().getWorldArea();
 			if (CurrentLocation.distanceTo2D(nieveArea) <= config.remindDistance()
-					|| CurrentLocation.distanceTo2D(KrystiliaArea) <= config.remindDistance()
 					|| CurrentArea.distanceTo2D(DuradelArea) <= config.remindDistance()
 					|| CurrentArea.distanceTo2D(TuraelArea) <= config.remindDistance()
 					|| CurrentArea.distanceTo2D(ChaeldarArea) <= config.remindDistance()) {
@@ -123,7 +121,6 @@ public class streakreminderPlugin extends Plugin
 			WorldPoint CurrentLocation = client.getLocalPlayer().getWorldLocation();
 			WorldArea CurrentArea = client.getLocalPlayer().getWorldArea();
 			if (CurrentLocation.distanceTo2D(nieveArea) >= config.remindDistance() + 7
-					|| CurrentLocation.distanceTo2D(KrystiliaArea) >= config.remindDistance() + 7
 					|| CurrentArea.distanceTo2D(DuradelArea) >= config.remindDistance() + 7
 					|| CurrentArea.distanceTo2D(TuraelArea) >= config.remindDistance() + 7
 					|| CurrentArea.distanceTo2D(ChaeldarArea) >= config.remindDistance() + 7) {
