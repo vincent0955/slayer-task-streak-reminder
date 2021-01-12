@@ -1,5 +1,6 @@
 package com.streakreminder;
 
+import net.runelite.api.coords.WorldArea;
 import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
@@ -24,13 +25,73 @@ public interface streakreminderConfig extends Config
 			description = "Only reminds you the first time you walk into range of the slayer master",
 			position = 2
 	)
-	default boolean remindOnce() { return false; }
+	default boolean remindOnce()
+	{
+		return false;
+	}
 
 	@ConfigItem(
-			keyName = "disable10Streak",
+			keyName = "ignore10Streak",
 			name = "Disable reminder for streaks of 10",
 			description = "Disables reminders only for streaks of ten",
 			position = 3
 	)
-	default boolean disable10Streak() { return false; }
+	default boolean ignore10Streak()
+	{
+		return false;
+	}
+	// stored variables
+	@ConfigItem(
+			keyName = "RemindStatus",
+			name = "",
+			description = "",
+			hidden = true
+	)
+	default int status()
+	{
+		return -1;
+	}
+
+	@ConfigItem(
+			keyName = "RemindStatus",
+			name = "",
+			description = ""
+	)
+	void status(int status);
+
+	@ConfigItem(
+			keyName = "streak",
+			name = "",
+			description = "",
+			hidden = true
+	)
+	default String streak()
+	{
+		return "";
+	}
+
+	@ConfigItem(
+			keyName = "streak",
+			name = "",
+			description = ""
+	)
+	void streak(String streak);
+
+	@ConfigItem(
+			keyName = "slayerarea",
+			name = "",
+			description = "",
+			hidden = true
+	)
+	default WorldArea slayerarea()
+	{
+		return null;
+	}
+
+	@ConfigItem(
+			keyName = "area",
+			name = "",
+			description = ""
+	)
+	void slayerarea(WorldArea slayerarea);
 }
