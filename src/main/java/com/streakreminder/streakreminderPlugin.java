@@ -23,6 +23,8 @@ import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.events.ConfigChanged;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
+import net.runelite.client.util.ColorUtil;
+import java.awt.Color;
 
 @Slf4j
 @PluginDescriptor(
@@ -76,12 +78,9 @@ public class streakreminderPlugin extends Plugin
 	@Override
 	protected void startUp() throws Exception
 	{
-		setRemindStatus(config.status());
-		setCurrentStreak(config.streak());
-		if (config.slayerarea() != null)
-		{
-			setSlayerMasterArea(config.slayerarea());
-		}
+		//setSlayerMasterArea(config.slayerarea()); for some reason this doesn't work
+		setRemindStatus(config.savedstatus());
+		setCurrentStreak(config.savedstreak());
 	}
 
 	@Subscribe
@@ -102,22 +101,22 @@ public class streakreminderPlugin extends Plugin
 
 				if (last3Digits == 999)
 				{
-					CurrentStreak = streak1000;
+					CurrentStreak = ColorUtil.wrapWithColorTag(streak1000, config.getStreak1000Color());
 				}
 
 				else if (last3Digits== 249 || last3Digits == 499 || last3Digits == 749)
 				{
-					CurrentStreak = streak250;
+					CurrentStreak = ColorUtil.wrapWithColorTag(streak250, config.getStreak250Color());
 				}
 
 				else if (last2Digits == 99)
 				{
-					CurrentStreak = streak100;
+					CurrentStreak = ColorUtil.wrapWithColorTag(streak100, config.getStreak100Color());
 				}
 
 				else if (last2Digits == 49)
 				{
-					CurrentStreak = streak50;
+					CurrentStreak = ColorUtil.wrapWithColorTag(streak50, config.getStreak50Color());
 				}
 
 				else if (lastDigit == 9)
@@ -127,7 +126,7 @@ public class streakreminderPlugin extends Plugin
 						RemindStatus = 0;
 					}
 					else {
-						CurrentStreak = streak10;
+						CurrentStreak = ColorUtil.wrapWithColorTag(streak10, config.getStreak10Color());
 					}
 				}
 				sendChatMessage(CurrentStreak);
@@ -182,12 +181,12 @@ public class streakreminderPlugin extends Plugin
 		if (RemindStatus == 2)
 		{
 			WorldPoint CurrentLocation = client.getLocalPlayer().getWorldLocation();
-			if (CurrentLocation.distanceTo(SlayerMasterArea) >= config.remindDistance() + 7)
+			if (CurrentLocation.distanceTo(SlayerMasterArea) >= config.remindDistance() + 15)
 			{
 				if (config.remindOnce())
 				{
 					RemindStatus = 0;
-					config.status(RemindStatus);
+					config.savedstatus(RemindStatus);
 				}
 				RemindStatus = 1;
 				save();
@@ -206,7 +205,7 @@ public class streakreminderPlugin extends Plugin
 					|| npcText.contains("You're still meant to be currently assigned"))
 			{
 				RemindStatus = 0;
-				config.status(RemindStatus);
+				config.savedstatus(RemindStatus);
 			}
 		}
 	}
@@ -220,7 +219,7 @@ public class streakreminderPlugin extends Plugin
 			{
 				CurrentStreak = "";
 				RemindStatus = 0;
-				config.status(RemindStatus);
+				config.savedstatus(RemindStatus);
 			}
 		}
 	}
@@ -229,20 +228,21 @@ public class streakreminderPlugin extends Plugin
 	{
 		final String message = new ChatMessageBuilder()
 				.append(ChatColorType.HIGHLIGHT)
-				.append(chatMessage)
+				.append(Color.RED, chatMessage)
+				//.append(chatMessage)
 				.build();
 
 		chatMessageManager.queue(
 				QueuedMessage.builder()
-						.type(ChatMessageType.CONSOLE)
+						.type(ChatMessageType.GAMEMESSAGE)
 						.runeLiteFormattedMessage(message)
 						.build());
 	}
 	//saves data
 	private void save()
 	{
-		config.status(RemindStatus);
-		config.streak(CurrentStreak);
-		config.slayerarea(SlayerMasterArea);
+		config.savedstatus(RemindStatus);
+		config.savedstreak(CurrentStreak);
+		//config.slayerarea(SlayerMasterArea);
 	}
 }
